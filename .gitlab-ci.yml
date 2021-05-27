@@ -1,0 +1,21 @@
+job:build:
+  image: 'registry.nimbusweb.co/docker/nimbus-node:16.2'
+  cache:
+    key:
+      prefix: "full-cache"
+      files:
+        - ./package.json
+        - ./package-lock.json
+      paths:
+        - ./tmp/nx/
+        - ./tmp/npm/
+  artifacts:
+    paths:
+      - ./dist/
+  script:
+    - 'node -v && npm -v'
+    - 'npm ci'
+    - 'npm run nx run-many -- --all --target=lint'
+    - 'npm run nx run-many -- --all --target=test'
+    - 'npm run nx run-many -- --all --target=build'
+    - 'npm run nx run-many -- --all --target=build-storybook'
