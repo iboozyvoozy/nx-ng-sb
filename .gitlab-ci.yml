@@ -19,6 +19,5 @@ job:build:
     - 'npm run nx run-many -- --all --target=test'
     - 'npm run nx run-many -- --all --target=build'
     - 'npm run nx run-many -- --all --target=build-storybook'
-    - 'mkdir -p ./dist/graph'
-    - 'npm run dep-graph -- --file=./dist/graph/index.html'
+    - 'npm run dep-graph -- --file=dist/graph/index.html'
     - 'git add -A && git diff --cached'
