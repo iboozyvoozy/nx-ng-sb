@@ -1,39 +1,39 @@
-#stages:
-#  - stage:build
-#  - stage:deploy
+stages:
+  - stage:build
+  - stage:deploy
 
-pages:
+default:
   image: 'registry.nimbusweb.co/docker/nimbus-node:16.2'
+
+job:build:
   cache:
     key:
-      prefix: "full-cache"
+      prefix: 'demo-cache'
       files:
-        - ./package.json
-        - ./package-lock.json
+        - package.json
+        - package-lock.json
     paths:
-      - ./tmp/nx/
-      - ./tmp/npm/
+      - tmp/nx
+      - tmp/npm
   artifacts:
     expire_in: 1 day
     paths:
       - dist
   script:
     - 'node -v && npm -v'
-    - 'npm ci'
+    - 'npm ci --cache=tmp/npm'
     - 'npm run nx run-many -- --all --target=lint'
     - 'npm run nx run-many -- --all --target=test'
     - 'npm run nx run-many -- --all --target=build'
     - 'npm run nx run-many -- --all --target=build-storybook'
-    - 'npm run dep-graph -- --file=dist/graph/index.html'
     - 'git add -A && git diff --cached'
 
-#pages:
-#  stage: deploy
-#  script:
-#    - echo 'Nothing to do...'
-#  artifacts:
-#    paths:
-#      - public
-#    expire_in: 1 day
-#  only:
-#    - master
+pages:
+  stage: stage:deploy
+  script:
+    - 'mkdir public'
+    - 'echo "Hello" > public/index.html'
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 day
