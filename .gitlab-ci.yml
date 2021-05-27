@@ -1,15 +1,12 @@
 stages:
   - stage:build
-  - stage:deploy
-
-default:
-  image: 'registry.nimbusweb.co/docker/nimbus-node:16.2'
 
 job:build:
+  image: 'registry.nimbusweb.co/docker/nimbus-node:16.2'
   stage: stage:build
   cache:
     key:
-      prefix: 'demo-cache'
+      prefix: 'my-cache'
       files:
         - package.json
         - package-lock.json
@@ -26,14 +23,5 @@ job:build:
     - 'npm run nx run-many -- --all --target=test'
     - 'npm run nx run-many -- --all --target=build'
     - 'npm run nx run-many -- --all --target=build-storybook'
+    - 'npm run dep-graph -- --file=dist/dep-graph/index.html'
     - 'git add -A && git diff --cached'
-
-pages:
-  stage: stage:deploy
-  script:
-    - 'mkdir public'
-    - 'echo "Hello" > public/index.html'
-  artifacts:
-    paths:
-      - public
-    expire_in: 1 day

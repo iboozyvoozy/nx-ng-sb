@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'omg-button',
+  selector: 'my-org-button',
   templateUrl: './button.component.html',
   styleUrls: [ './button.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush

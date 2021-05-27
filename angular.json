@@ -25,7 +25,7 @@
       "projectType": "application",
       "root": "apps/client",
       "sourceRoot": "apps/client/src",
-      "prefix": "omg",
+      "prefix": "my-org",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -193,7 +193,7 @@
       "projectType": "library",
       "root": "libs/ui-kit",
       "sourceRoot": "libs/ui-kit/src",
-      "prefix": "omg",
+      "prefix": "my-org",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
