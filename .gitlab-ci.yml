@@ -6,9 +6,9 @@ job:build:
       files:
         - ./package.json
         - ./package-lock.json
-      paths:
-        - ./tmp/nx/
-        - ./tmp/npm/
+    paths:
+      - ./tmp/nx/
+      - ./tmp/npm/
   artifacts:
     paths:
       - ./dist/
