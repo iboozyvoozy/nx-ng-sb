@@ -1,11 +1,11 @@
 stages:
-  - stage:build
+  - build
 
 default:
   image: 'registry.nimbusweb.co/docker/nimbus-node:16.2'
 
-job:build:strict:
-  stage: stage:build
+build:strict:
+  stage: build
   cache:
     key:
       prefix: 'strict-cache'
@@ -26,9 +26,8 @@ job:build:strict:
     - 'npm run nx run-many -- --all --target=build-storybook'
     - 'npm run dep-graph -- --file=dist/dep-graph/index.html'
 
-
-job:build:fast:
-  stage: stage:build
+build:fast:
+  stage: build
   cache:
     key:
       prefix: 'fast-cache'
