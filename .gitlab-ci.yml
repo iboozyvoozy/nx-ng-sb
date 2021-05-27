@@ -6,6 +6,7 @@ default:
   image: 'registry.nimbusweb.co/docker/nimbus-node:16.2'
 
 job:build:
+  stage: stage:build
   cache:
     key:
       prefix: 'demo-cache'
@@ -16,7 +17,6 @@ job:build:
       - tmp/nx
       - tmp/npm
   artifacts:
-    expire_in: 1 day
     paths:
       - dist
   script:
