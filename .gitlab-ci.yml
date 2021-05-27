@@ -1,4 +1,8 @@
-job:build:
+#stages:
+#  - stage:build
+#  - stage:deploy
+
+pages:
   image: 'registry.nimbusweb.co/docker/nimbus-node:16.2'
   cache:
     key:
@@ -10,8 +14,9 @@ job:build:
       - ./tmp/nx/
       - ./tmp/npm/
   artifacts:
+    expire_in: 1 day
     paths:
-      - ./dist/
+      - dist
   script:
     - 'node -v && npm -v'
     - 'npm ci'
@@ -21,3 +26,14 @@ job:build:
     - 'npm run nx run-many -- --all --target=build-storybook'
     - 'npm run dep-graph -- --file=dist/graph/index.html'
     - 'git add -A && git diff --cached'
+
+#pages:
+#  stage: deploy
+#  script:
+#    - echo 'Nothing to do...'
+#  artifacts:
+#    paths:
+#      - public
+#    expire_in: 1 day
+#  only:
+#    - master
