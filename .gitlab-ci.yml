@@ -1,14 +1,15 @@
 stages:
   - stage:build
 
-job:build:
+default:
   image: 'registry.nimbusweb.co/docker/nimbus-node:16.2'
+
+job:build:strict:
   stage: stage:build
   cache:
     key:
-      prefix: 'my-cache'
+      prefix: 'strict-cache'
       files:
-        - package.json
         - package-lock.json
     paths:
       - tmp/nx
@@ -22,6 +23,33 @@ job:build:
     - 'npm run nx run-many -- --all --target=lint'
     - 'npm run nx run-many -- --all --target=test'
     - 'npm run nx run-many -- --all --target=build'
+    - 'npm run nx run-many -- --all --target=build-storybook'
+    - 'npm run dep-graph -- --file=dist/dep-graph/index.html'
+
+
+job:build:fast:
+  stage: stage:build
+  cache:
+    key:
+      prefix: 'fast-cache'
+      files:
+        - package-lock.json
+    paths:
+      - tmp/nx
+      - tmp/npm
+      - node_modules
+  artifacts:
+    paths:
+      - dist
+  script:
+    - 'node -v && npm -v'
+    - 'npm i --cache=tmp/npm'
+    - 'npm run nx run-many -- --all --target=lint'
+    - 'npm run nx run-many -- --all --target=test'
+#    - 'npm run nx run-many -- --all --target=build'
+    - 'npm run nx build api'
+    - 'npm run nx build client'
+    - 'npm run nx build-storybook ui-kit'
     - 'npm run nx run-many -- --all --target=build-storybook'
     - 'npm run dep-graph -- --file=dist/dep-graph/index.html'
     - 'git add -A && git diff --cached'
