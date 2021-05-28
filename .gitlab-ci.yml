@@ -42,7 +42,7 @@ build:fast:
       - dist
   script:
     - 'node -v && npm -v'
-    - 'npm i --cache=tmp/npm'
+    - 'npm i --legacy-peer-deps --cache=tmp/npm'
     - 'npm run nx run-many -- --all --target=lint'
     - 'npm run nx run-many -- --all --target=test'
 #    - 'npm run nx run-many -- --all --target=build'
