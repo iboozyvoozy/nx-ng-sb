@@ -4,8 +4,20 @@ stages:
 default:
   image: 'registry.nimbusweb.co/docker/nimbus-node:16.2'
 
-build:strict:
+.build-base:
   stage: build
+  script:
+    - 'npm run nx run-many -- --all --target=lint'
+    - 'npm run nx run-many -- --all --target=test'
+    - 'npm run nx run-many -- --all --target=build'
+    - 'npm run nx run-many -- --all --target=build-storybook'
+    - 'npm run dep-graph -- --file=dist/dep-graph/index.html'
+  artifacts:
+    paths:
+      - dist
+
+build-strict:
+  extends: .build-base
   cache:
     key:
       prefix: 'strict-cache'
@@ -14,20 +26,13 @@ build:strict:
     paths:
       - tmp/nx
       - tmp/npm
-  artifacts:
-    paths:
-      - dist
-  script:
+  before_script:
     - 'node -v && npm -v'
     - 'npm run install-strict'
-    - 'npm run nx run-many -- --all --target=lint'
-    - 'npm run nx run-many -- --all --target=test'
-    - 'npm run nx run-many -- --all --target=build'
-    - 'npm run nx run-many -- --all --target=build-storybook'
-    - 'npm run dep-graph -- --file=dist/dep-graph/index.html'
+    - 'npm ls'
 
-build:fast:
-  stage: build
+build-fast:
+  extends: .build-base
   cache:
     key:
       prefix: 'fast-cache'
@@ -37,15 +42,8 @@ build:fast:
       - tmp/nx
       - tmp/npm
       - node_modules
-  artifacts:
-    paths:
-      - dist
-  script:
+  before_script:
     - 'node -v && npm -v'
     - 'npm run install-fast'
-    - 'npm run nx run-many -- --all --target=lint'
-    - 'npm run nx run-many -- --all --target=test'
-    - 'npm run nx run-many -- --all --target=build'
-    - 'npm run nx run-many -- --all --target=build-storybook'
-    - 'npm run dep-graph -- --file=dist/dep-graph/index.html'
+    - 'npm ls'
     - 'git add -A && git diff --cached'
