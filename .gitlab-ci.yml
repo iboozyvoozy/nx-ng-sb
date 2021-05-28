@@ -19,7 +19,7 @@ build:strict:
       - dist
   script:
     - 'node -v && npm -v'
-    - 'npm ci --cache=tmp/npm'
+    - 'npm run setup'
     - 'npm run nx run-many -- --all --target=lint'
     - 'npm run nx run-many -- --all --target=test'
     - 'npm run nx run-many -- --all --target=build'
@@ -42,13 +42,10 @@ build:fast:
       - dist
   script:
     - 'node -v && npm -v'
-    - 'npm i --legacy-peer-deps --cache=tmp/npm'
+    - 'npm run i'
     - 'npm run nx run-many -- --all --target=lint'
     - 'npm run nx run-many -- --all --target=test'
-#    - 'npm run nx run-many -- --all --target=build'
-    - 'npm run nx build api'
-    - 'npm run nx build client'
-    - 'npm run nx build-storybook ui-kit'
+    - 'npm run nx run-many -- --all --target=build'
     - 'npm run nx run-many -- --all --target=build-storybook'
     - 'npm run dep-graph -- --file=dist/dep-graph/index.html'
     - 'git add -A && git diff --cached'
