@@ -19,7 +19,7 @@ build:strict:
       - dist
   script:
     - 'node -v && npm -v'
-    - 'npm run setup'
+    - 'npm run install-strict'
     - 'npm run nx run-many -- --all --target=lint'
     - 'npm run nx run-many -- --all --target=test'
     - 'npm run nx run-many -- --all --target=build'
@@ -42,7 +42,7 @@ build:fast:
       - dist
   script:
     - 'node -v && npm -v'
-    - 'npm run i'
+    - 'npm run install-fast'
     - 'npm run nx run-many -- --all --target=lint'
     - 'npm run nx run-many -- --all --target=test'
     - 'npm run nx run-many -- --all --target=build'
